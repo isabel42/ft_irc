@@ -1,9 +1,9 @@
 SRCS	= main.cpp \
-			PmergeMe.cpp
+			Server.cpp
 
 OBJS 	= ${SRCS:.cpp=.o}
 
-NAME 	= PmergeMe
+NAME 	= ircserv
 
 CC		= c++
 
