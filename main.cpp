@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:35:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/02 23:12:33 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/09 12:02:35 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,22 @@ int main(int argc, char **argv)
 
 		signal(SIGINT, signal_handler);
 		Server server(argv[1], argv[2], timeinfo);
-
 		// char filename[39] = "srcs/config/ManageServOperators.config";
 		// server.readFromConfigFile(filename);
 		
+		try
+		{
 		// // The three following functions calls are just set up
-		// server.setHints();
-		if (server.fillServinfo(argv[1]) == 0)
-			return (0);
-		// server.launchServer();
+			server.setHints();
+			server.setParam(argv[1]);
+			server.launchServer();
 		// // Below, the main loop for server/client connection
-		// try
-		// {
-		// 	server.manageServerLoop();
-		// }
-		// catch(const std::exception& e) 
-		// {
-		// 	std::cerr << RED << "Caught exception : " << RESET << e.what() << std::endl;
-		// }
+			// server.ServerLoop();
+		}
+		catch(const std::exception& e) 
+		{
+			std::cerr << "Caught exception : " << e.what() << std::endl;
+		}
 
 		return (1);
 	}
