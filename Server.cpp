@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:02 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/11 17:42:18 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/11 17:46:46 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ Server::~Server()
 	
 }
 
-Server::Server(char * port, std::string pw, struct tm *timeinfo)
-: _pw(pw), _param(NULL), _server_socket_fd(0)
+Server::Server(std::string port, std::string pw, struct tm *timeinfo)
+: _pw(pw), _port(port), _param(NULL), _server_socket_fd(0)
 {
 	// std::cout << YELLOW << "Server running..." << RESET << std::endl;
 	// std::cout << YELLOW << "Server listening" << RESET << std::endl;
