@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/09 12:13:03 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/11 17:33:33 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include <string>
 # include <cerrno>
 # include <ctime>
+#include <stdlib.h>
 
 # include "Client.hpp"
 
@@ -42,7 +43,7 @@ extern bool	server_shutdown;
 class Server
 {
 	private:
-		std::string	_port;
+		char *	_port;
 		std::string	_pw;
 		std::string _datetime;
 			
@@ -54,7 +55,7 @@ class Server
 	public:
 		Server();
 		~Server();
-		Server(std::string port, std::string pw, struct tm *timeinfo);
+		Server(char * port, std::string pw, struct tm *timeinfo);
 		void setDatetime(struct tm *timeinfo);
 		void setParam(char *port);
 		void setHints();
