@@ -1,6 +1,8 @@
 SRCS	= main.cpp \
 			Server.cpp \
-			Client.cpp
+			Client.cpp \
+			CreateClienetCon.cpp \
+			Handlein.cpp
 
 OBJS 	= ${SRCS:.cpp=.o}
 

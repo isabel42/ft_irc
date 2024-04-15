@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:35:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/12 17:56:14 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:33:28 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@ static void	signal_handler(int signal)
 int main(int argc, char **argv)
 {
 
-	if (argc == 3)
+	if (argc != 3)
+	{
+		std::cout << "Correct usage is ./ircserv [port] [password] :)" << std::endl;
+		return (0);
+	}
+	else
 	{
 		time_t rawtime;
 		struct tm * timeinfo;
@@ -30,13 +35,13 @@ int main(int argc, char **argv)
 		timeinfo = localtime(&rawtime);
 
 		signal(SIGINT, signal_handler);
-		Server server(argv[1], argv[2], timeinfo);
 		// char filename[39] = "srcs/config/ManageServOperators.config";
 		// server.readFromConfigFile(filename);
 		
 		try
 		{
 		// // The three following functions calls are just set up
+			Server server(argv[1], argv[2], timeinfo);
 			server.setHints();
 			server.setParam();
 			server.launchServer();
@@ -49,11 +54,6 @@ int main(int argc, char **argv)
 		}
 
 		return (1);
-	}
-	else
-	{
-		std::cout << "Correct usage is ./ircserv [port] [password] :)" << std::endl;
-		return (0);
 	}
 	
 }

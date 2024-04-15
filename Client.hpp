@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:06:01 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/09 12:10:58 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/15 17:07:01 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ class Client
 {
 	private:
 		int		_client_fd;
+		std::string	_readbuf;
 	
 	public:
 		Client();

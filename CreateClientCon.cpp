@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:04:56 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/12 18:51:27 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:42:13 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int	Server::createClientConnexion(std::list<pollfd>& poll_fds, std::list<pollfd>
 	if (client_sock == -1)
 	{
 		std::cerr << "[Server] Accept() failed" << std::endl;
-		return (-1);
+		return (3);
 	}
-	if (poll_fds.size() - 1 < 4)
+	if (poll_fds.size() - 1 < 10)
 		addClient(client_sock, new_pollfds); // Beware, here we push the new client_socket in NEW_pollfds
 	else
 		tooManyClients(client_sock);

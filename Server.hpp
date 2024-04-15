@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/12 18:50:12 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:32:23 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ class Server
 
 		int createClientConnexion(std::list<pollfd>& poll_fds, std::list<pollfd>& new_pollfds);
 		void addClient(int client_socket, std::list<pollfd> &poll_fds);
-	
+		
+		int handleExistingConnexion(std::list<pollfd>& poll_fds, std::list<pollfd>::iterator &it);
+		Client*	getClient(int const client_fd);
+		void delClient(std::list<pollfd> &poll_fds, std::list<pollfd>::iterator &it, int current_fd);
 };
 
 #endif
