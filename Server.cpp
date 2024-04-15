@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:02 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/11 17:46:46 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/12 18:52:37 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,10 @@ Server::~Server()
 }
 
 Server::Server(std::string port, std::string pw, struct tm *timeinfo)
-: _pw(pw), _port(port), _param(NULL), _server_socket_fd(0)
+: _port(port), _pw(pw), _server_socket_fd(0), _nb_clients(0)
 {
 	// std::cout << YELLOW << "Server running..." << RESET << std::endl;
 	// std::cout << YELLOW << "Server listening" << RESET << std::endl;
-	_port = htons(atoi(port));
-	memset(&_hints, 0, sizeof(_hints));
 	this->setDatetime(timeinfo);
 }
 
@@ -44,21 +42,26 @@ void Server::setDatetime(struct tm *timeinfo)
 
 void Server::setHints()
 {
+	memset(&_hints, 0, sizeof(_hints));
 	_hints.ai_family = AF_INET;		  // Ipv4
 	_hints.ai_socktype = SOCK_STREAM; // TCP stream sockets
 	_hints.ai_flags = AI_PASSIVE;	  // Localhost by default
 }
 
-void Server::setParam(char *port)
+void Server::setParam()
 {
-	if (getaddrinfo(NULL, _port, &_hints, &_param) < 0)
-		throw(std::out_of_range("Server] Flop du addrinfo"));
+	// if (getaddrinfo(NULL, _port, &_hints, &_param) < 0)
+	// 	throw(std::out_of_range("Server] Flop du addrinfo"));
+	memset(&_param, 0, sizeof(_param));
+	_param.sin_family = AF_INET;
+    _param.sin_addr.s_addr = INADDR_ANY;
+    _param.sin_port = htons(atoi(_port.c_str()));
 }
 
 
 void Server::launchServer()
 {
-	_server_socket_fd = socket(_param->ai_family, _param->ai_socktype, _param->ai_protocol);
+	_server_socket_fd = socket(AF_INET, SOCK_STREAM, 0);
 	if (_server_socket_fd < 0)
 	{
 		close (_server_socket_fd);
@@ -70,17 +73,20 @@ void Server::launchServer()
 		close (_server_socket_fd);
 		throw (std::out_of_range("[Server] Impossible to reuse"));
 	}
-	if (bind(_server_socket_fd, _param->ai_addr, _param->ai_addrlen) < 0)
+
+	if (fcntl(_server_socket_fd, F_SETFL, O_NONBLOCK))
+        throw std::runtime_error("Error while setting socket to NON-BLOCKING!");
+		
+	if (bind(_server_socket_fd,(sockaddr *) &_param, sizeof(_param)) < 0)
 	{
 		close (_server_socket_fd);
 		throw (std::out_of_range("[Server] Bind failed"));
 	}
-	if (listen(_server_socket_fd, 10) < 0)
+	if (listen(_server_socket_fd, _nb_clients + 1) < 0)
 	{
 		close (_server_socket_fd);
 		throw (std::out_of_range("[Server] Listen failed"));
 	}
-	freeaddrinfo(_param);
 }
 
 void Server::ServerLoop()

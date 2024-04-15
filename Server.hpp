@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/11 17:33:33 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/12 18:50:12 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 # include <ctime>
 #include <stdlib.h>
 
+#include <fcntl.h>
+
 # include "Client.hpp"
 
 
@@ -43,21 +45,22 @@ extern bool	server_shutdown;
 class Server
 {
 	private:
-		char *	_port;
+		std::string	_port;
 		std::string	_pw;
 		std::string _datetime;
 			
 		struct addrinfo	_hints;
-		struct addrinfo	*_param;
+		struct sockaddr_in	_param;
 		int				_server_socket_fd;
 		std::map <const int, Client> _clients;
+		int		_nb_clients;
 		
 	public:
 		Server();
 		~Server();
-		Server(char * port, std::string pw, struct tm *timeinfo);
+		Server(std::string port, std::string pw, struct tm *timeinfo);
 		void setDatetime(struct tm *timeinfo);
-		void setParam(char *port);
+		void setParam();
 		void setHints();
 		void launchServer();
 		void ServerLoop();

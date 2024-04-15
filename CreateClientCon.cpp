@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:04:56 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/09 12:13:26 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/12 18:51:27 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void Server::addClient(int client_socket, std::list<pollfd> &poll_fds)
 	client_pollfd.fd = client_socket;
 	client_pollfd.events = POLLIN | POLLOUT; 
 	poll_fds.push_back(client_pollfd);
+	_nb_clients++;
 
 	_clients.insert(std::pair<int, Client>(client_socket, new_client)); // insert a new nod in client map with the fd as key
 	std::cout << "[Server] Added client #" << client_socket << " successfully" << std::endl;

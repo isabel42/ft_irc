@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:35:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/09 12:02:35 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:56:14 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 		{
 		// // The three following functions calls are just set up
 			server.setHints();
-			server.setParam(argv[1]);
+			server.setParam();
 			server.launchServer();
 		// // Below, the main loop for server/client connection
 			// server.ServerLoop();
