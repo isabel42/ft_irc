@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/16 18:03:40 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:33:15 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ class Server
 		void launchServer();
 		void ServerLoop();
 
-		int createClientConnexion(std::list<pollfd>& poll_fds, std::list<pollfd>& new_pollfds);
-		void addClient(int client_socket, std::list<pollfd> &poll_fds);
+		int createClientConnexion(std::vector<pollfd>& poll_fds, std::vector<pollfd>& new_pollfds);
+		void addClient(int client_socket, std::vector<pollfd> &poll_fds);
 		
-		int handleExistingConnexion(std::list<pollfd>& poll_fds, std::list<pollfd>::iterator &it);
+		int handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it);
 		Client*	getClient(int const client_fd);
-		void delClient(std::list<pollfd> &poll_fds, std::list<pollfd>::iterator &it, int current_fd);
+		void delClient(std::vector<pollfd> &poll_fds, std::vector<pollfd>::iterator &it, int current_fd);
 
-		int	handlePolloutEvent(std::list<pollfd>& poll_fds, std::list<pollfd>::iterator &it, const int current_fd);
+		int	handlePolloutEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it, const int current_fd);
 
-		int	handlePollerEvent(std::list<pollfd>& poll_fds, std::list<pollfd>::iterator &it);
+		int	handlePollerEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it);
 };
 
 #endif

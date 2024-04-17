@@ -14,13 +14,13 @@ CC		= c++
 
 RM		= rm -f
 
-CFLAGS	= -Wextra -Wall -Werror -std=c++98
+CFLAGS	= -Wextra -Wall -Werror -std=c++98 -g -fsanitize=address
 
 .cpp.o:	
 			${CC} ${CFLAGS} -c $< -o ${<:.cpp=.o}
 
 ${NAME}: 	${OBJS}
-			${CC} ${OBJS} -o ${NAME} 
+			${CC} $(CFLAGS) ${OBJS} -o ${NAME} 
 
 all:		${NAME}
 

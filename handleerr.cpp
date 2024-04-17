@@ -6,14 +6,14 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:01:20 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/16 18:03:56 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:33:15 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
 
-int	Server::handlePollerEvent(std::list<pollfd>& poll_fds, std::list<pollfd>::iterator &it)
+int	Server::handlePollerEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it)
 {
 	if (it->fd == _server_socket_fd)
 	{

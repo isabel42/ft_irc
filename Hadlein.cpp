@@ -6,13 +6,13 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:48:34 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/16 17:47:26 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/17 16:33:46 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-void Server::delClient(std::list<pollfd> &poll_fds, std::list<pollfd>::iterator &it, int current_fd)
+void Server::delClient(std::vector<pollfd> &poll_fds, std::vector<pollfd>::iterator &it, int current_fd)
 {
 	std::cout << "[Server] Deconnection of client #" << current_fd << std::endl;
 
@@ -28,15 +28,18 @@ void Server::delClient(std::list<pollfd> &poll_fds, std::list<pollfd>::iterator 
 
 Client*	Server::getClient(int const client_fd)
 {
-	// std::map<const int, Client>&		client_list = server->getClients();
-	std::map<const int, Client>::iterator it_client = _clients.find(client_fd);
-	
-	if (it_client == _clients.end())
+	Client *it_client;
+	it_client = &_clients[client_fd];
+
+	if (!it_client)
+	{
+		_clients.erase(client_fd);
 		return (NULL);
-	return (&it_client->second);
+	}
+	return (it_client);
 }
 
-int	Server::handleExistingConnexion(std::list<pollfd>& poll_fds, std::list<pollfd>::iterator &it)
+int	Server::handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it)
 {
 	Client *client;
 	client = getClient(it->fd);

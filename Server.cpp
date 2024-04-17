@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:02 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/16 17:57:49 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/17 16:36:59 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,26 +93,27 @@ void Server::launchServer()
 
 void Server::ServerLoop()
 {
-	std::list<pollfd> poll_fds;
+	std::vector<pollfd> poll_fds;
 	pollfd server_poll_fd;
 
 	server_poll_fd.fd = _server_socket_fd;
 	server_poll_fd.events = POLLIN;
 
 	poll_fds.push_back(server_poll_fd);
-
-	while (_onoff == 1)
+	
+	while (server_shutdown == false)
 	{
-		std::list<pollfd> new_pollfds; // tmp struct hosting potential newly-created fds
+		std::vector<pollfd> new_pollfds; // tmp struct hosting potential newly-created fds
 
-		if (poll((pollfd *)&poll_fds, (unsigned int)poll_fds.size(), 0) <= 0) // -1 == no timeout
+		if (poll((pollfd *)&poll_fds[0], (unsigned int)poll_fds.size(), -1) <= 0) // -1 == no timeout
 		{
 			if (errno == EINTR)
 				break ;
-			throw (std::out_of_range("[Server] Poll error"));
+			throw (std::out_of_range("[Server] Socket error"));
 		}
 
-		std::list<pollfd>::iterator it = poll_fds.begin();
+		std::vector<pollfd>::iterator it = poll_fds.begin();
+		
 		while (it != poll_fds.end())
 		{
 			if (it->revents & POLLIN) // => If the event that occured is a POLLIN (aka "data is ready to recv() on this socket")
@@ -120,7 +121,9 @@ void Server::ServerLoop()
 				if (it->fd == _server_socket_fd)
 				{
 					if (this->createClientConnexion(poll_fds, new_pollfds) == 3)
+					{
 						continue;
+					}
 				}
 				else // => If the dedicated fd for the Client/Server connection already exists
 				{
@@ -135,6 +138,7 @@ void Server::ServerLoop()
 			}
 			else if (it->revents & POLLERR)
 			{
+				
 				if (handlePollerEvent(poll_fds, it) == 2)
 					break ;
 				else

@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:35:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/16 16:01:25 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:36:02 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 			server.setParam();
 			server.launchServer();
 		// // Below, the main loop for server/client connection
-			// server.ServerLoop();
+			server.ServerLoop();
 		}
 		catch(const std::exception& e) 
 		{

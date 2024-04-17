@@ -6,14 +6,14 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:04:56 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/16 15:47:33 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:33:15 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
 
-void Server::addClient(int client_socket, std::list<pollfd> &poll_fds)
+void Server::addClient(int client_socket, std::vector<pollfd> &poll_fds)
 {
 	pollfd client_pollfd;
 	Client new_client(client_socket);
@@ -42,7 +42,7 @@ static void	tooManyClients(int client_socket)
 	close(client_socket);
 }
 
-int	Server::createClientConnexion(std::list<pollfd>& poll_fds, std::list<pollfd>& new_pollfds)
+int	Server::createClientConnexion(std::vector<pollfd>& poll_fds, std::vector<pollfd>& new_pollfds)
 {
 	int client_sock = acceptSocket(_server_socket_fd); // Accepts the socket and returns a dedicated fd for this new Client-Server connexion
 	if (client_sock == -1)
