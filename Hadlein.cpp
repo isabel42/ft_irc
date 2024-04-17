@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:48:34 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/15 17:07:48 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:47:26 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ Client*	Server::getClient(int const client_fd)
 	// std::map<const int, Client>&		client_list = server->getClients();
 	std::map<const int, Client>::iterator it_client = _clients.find(client_fd);
 	
-	if (it_client == client_list.end())
+	if (it_client == _clients.end())
 		return (NULL);
 	return (&it_client->second);
 }
@@ -48,7 +48,7 @@ int	Server::handleExistingConnexion(std::list<pollfd>& poll_fds, std::list<pollf
 
 	if (read_count == -1) // when recv returns an error
 	{
-		std::cerr << RED << "[Server] Recv() failed [456]" << RESET << std::endl;
+		std::cerr << "[Server] Recv() failed [456]" << std::endl;
 		delClient(poll_fds, it, it->fd);
 		return (2);
 	}
@@ -60,28 +60,29 @@ int	Server::handleExistingConnexion(std::list<pollfd>& poll_fds, std::list<pollf
 	}
 	else
 	{
-		if (message)
-			std::cout << std::endl <<  "[Client] Message received from client "<< client_socket << " << "<< message << std::endl;
+		// if (message)
+			std::cout << std::endl <<  "[Client] Message received from client "<< it->fd << " << "<< message << std::endl;
 		// print("[Client] Message received from client ", it->fd, message); // si affichage incoherent regarder ici
 		client->setReadBuffer(message);
 
-		// if (client->getReadBuffer().find("\r\n") != std::string::npos)
-		// {
-		// 	try 
-		// 	{
-		// 		parseMessage(it->fd, client->getReadBuffer());
-		// 		if (client->getReadBuffer().find("\r\n"))
-		// 			client->getReadBuffer().clear();
-		// 	}
-		// 	catch(const std::exception& e) 
-		// 	{ 
-		// 		std::cout << "[SERVER] Caught exception : ";
-		// 		std::cerr << e.what() << std::endl;
-		// 		if (client->isRegistrationDone() == true)
-		// 			client->setDeconnexionStatus(true);
-		// 		return (BREAK);
-		// 	}
-		// }
+		if (client->getReadBuffer().find("\r\n") != std::string::npos)
+		{
+			std::cout << client->getReadBuffer();
+			// try 
+			// {
+			// 	parseMessage(it->fd, client->getReadBuffer());
+			// 	if (client->getReadBuffer().find("\r\n"))
+			// 		client->getReadBuffer().clear();
+			// }
+			// catch(const std::exception& e) 
+			// { 
+			// 	std::cout << "[SERVER] Caught exception : ";
+			// 	std::cerr << e.what() << std::endl;
+			// 	if (client->isRegistrationDone() == true)
+			// 		client->setDeconnexionStatus(true);
+			// 	return (BREAK);
+			// }
+		}
 	}
 	return (0);
 }

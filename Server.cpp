@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:02 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/15 16:43:54 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:57:49 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void Server::launchServer()
 		close (_server_socket_fd);
 		throw (std::out_of_range("[Server] Listen failed"));
 	}
+	this->_onoff = 1;
 }
 
 void Server::ServerLoop()
@@ -100,7 +101,7 @@ void Server::ServerLoop()
 
 	poll_fds.push_back(server_poll_fd);
 
-	while (server_shutdown == false)
+	while (_onoff == 1)
 	{
 		std::list<pollfd> new_pollfds; // tmp struct hosting potential newly-created fds
 
@@ -127,18 +128,18 @@ void Server::ServerLoop()
 						break ;
 				}
 			}
-			// else if (it->revents & POLLOUT) // = "Alert me when I can send() data to this socket without blocking."
-			// {
-			// 	if (handlePolloutEvent(poll_fds, it, it->fd) == BREAK)
-			// 		break;
-			// }
-			// else if (it->revents & POLLERR)
-			// {
-			// 	if (handlePollerEvent(poll_fds, it) == BREAK)
-			// 		break ;
-			// 	else
-			// 		throw (std::out_of_range("[Server] Poll error"));
-			// }
+			else if (it->revents & POLLOUT) // = "Alert me when I can send() data to this socket without blocking."
+			{
+				if (handlePolloutEvent(poll_fds, it, it->fd) == 2)
+					break;
+			}
+			else if (it->revents & POLLERR)
+			{
+				if (handlePollerEvent(poll_fds, it) == 2)
+					break ;
+				else
+					throw (std::out_of_range("[Server] Poll error"));
+			}
 			it++;
 		}
 		poll_fds.insert(poll_fds.end(), new_pollfds.begin(), new_pollfds.end()); // Add the range of NEW_pollfds in poll_fds (helps recalculating poll_fds.end() in the for loop)

@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:04:56 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/15 16:42:13 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:47:33 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void Server::addClient(int client_socket, std::list<pollfd> &poll_fds)
 	pollfd client_pollfd;
 	Client new_client(client_socket);
 
-	client_pollfd.fd = client_socket;
+	// client_pollfd.fd = client_socket;
 	client_pollfd.events = POLLIN | POLLOUT; 
 	poll_fds.push_back(client_pollfd);
 	_nb_clients++;

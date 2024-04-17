@@ -6,11 +6,13 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:35:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/15 16:33:28 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:01:25 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+
+bool server_shutdown = false;
 
 static void	signal_handler(int signal)
 {
