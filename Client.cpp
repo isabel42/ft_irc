@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:09:11 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/16 17:56:33 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/18 12:12:47 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ Client::~Client()
 void	Client::setReadBuffer(std::string const &buf)
 {
 	_readbuf += buf;
+}
+void	Client::setSendBuffer(std::string const &buf)
+{
+	_sendbuf += buf;
 }
 
 std::string	Client::getReadBuffer()

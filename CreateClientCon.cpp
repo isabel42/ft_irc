@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 00:04:56 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/17 13:33:15 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/18 10:46:44 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void Server::addClient(int client_socket, std::vector<pollfd> &poll_fds)
 	pollfd client_pollfd;
 	Client new_client(client_socket);
 
-	// client_pollfd.fd = client_socket;
+	client_pollfd.fd = client_socket;
 	client_pollfd.events = POLLIN | POLLOUT; 
 	poll_fds.push_back(client_pollfd);
 	_nb_clients++;
@@ -37,7 +37,6 @@ static int acceptSocket(int listenSocket)
 static void	tooManyClients(int client_socket)
 {
 	const char * error = "[Server] You cannot join, the server is already full";
-	std::cout << error << std::endl;
 	send(client_socket, &error, strlen(error) + 1, 0);
 	close(client_socket);
 }

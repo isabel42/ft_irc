@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:02 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/17 16:36:59 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/18 18:22:30 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void Server::launchServer()
 		throw (std::out_of_range("[Server] Impossible to reuse"));
 	}
 
-	if (fcntl(_server_socket_fd, F_SETFL, O_NONBLOCK))
-        throw std::runtime_error("Error while setting socket to NON-BLOCKING!");
+	// if (fcntl(_server_socket_fd, F_SETFL, O_NONBLOCK))
+    //     throw std::runtime_error("Error while setting socket to NON-BLOCKING!");
 		
 	if (bind(_server_socket_fd,(sockaddr *) &_param, sizeof(_param)) < 0)
 	{
@@ -138,7 +138,6 @@ void Server::ServerLoop()
 			}
 			else if (it->revents & POLLERR)
 			{
-				
 				if (handlePollerEvent(poll_fds, it) == 2)
 					break ;
 				else

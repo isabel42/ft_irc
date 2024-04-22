@@ -6,11 +6,19 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:48:34 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/17 16:33:46 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/22 11:20:25 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+
+static void print(std::string type, int client_socket, char *message)
+{
+	if (message)
+		std::cout << std::endl << type << client_socket << " << "\
+		 << message;
+}
+
 
 void Server::delClient(std::vector<pollfd> &poll_fds, std::vector<pollfd>::iterator &it, int current_fd)
 {
@@ -64,13 +72,16 @@ int	Server::handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<p
 	else
 	{
 		// if (message)
-			std::cout << std::endl <<  "[Client] Message received from client "<< it->fd << " << "<< message << std::endl;
-		// print("[Client] Message received from client ", it->fd, message); // si affichage incoherent regarder ici
+			// std::cout << std::endl <<  "[Client] Message received from client "<< it->fd << " << "<< message << std::endl;
+		print("[Client] Message received from client ", it->fd, message); // si affichage incoherent regarder ici
 		client->setReadBuffer(message);
+		// client->setSendBuffer(message);
+		// 			client->getReadBuffer().clear();
 
-		if (client->getReadBuffer().find("\r\n") != std::string::npos)
+		// if (client->getReadBuffer().find("\r\n") != std::string::npos)
+		if (client->getReadBuffer().find("hola") != std::string::npos)
 		{
-			std::cout << client->getReadBuffer();
+			std::cout << "**" << std::endl;
 			// try 
 			// {
 			// 	parseMessage(it->fd, client->getReadBuffer());

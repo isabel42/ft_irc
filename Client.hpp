@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:06:01 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/16 17:57:32 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:00:27 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ class Client
 {
 	private:
 		int		_client_fd;
+		std::string _nickname;
+		std::string _real_name;
+		std::string _user_name;
 		std::string	_readbuf;
 		std::string	_sendbuf;
 		bool _to_deconnect;
@@ -27,6 +30,7 @@ class Client
 		Client(int fd);
 		~Client();
 		void setReadBuffer(std::string const &buf);
+		void setSendBuffer(std::string const &buf);
 		std::string	getReadBuffer();
 		std::string	getSendBuffer();
 		bool&			getDeconnexionStatus();
