@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:48:43 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/18 11:40:06 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:52:00 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	Server::handlePolloutEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd
 		std::cout << "[Server] Did not found connexion to client sorry" << std::endl;
 	else
 	{
-	// send(client_fd, client_buffer.c_str(), client_buffer.size(), 0);
 		sendServerRpl(current_fd, client->getSendBuffer());
 		client->getSendBuffer().clear();
 		if (client->getDeconnexionStatus() == true)

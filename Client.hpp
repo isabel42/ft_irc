@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:06:01 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/18 17:00:27 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:45:02 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ class Client
 		~Client();
 		void setReadBuffer(std::string const &buf);
 		void setSendBuffer(std::string const &buf);
-		std::string	getReadBuffer();
-		std::string	getSendBuffer();
+		std::string	& getReadBuffer();
+		std::string	& getSendBuffer();
 		bool&			getDeconnexionStatus();
 		
 		void setfd(int i);
