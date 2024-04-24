@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:48:34 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/22 17:54:08 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:51:52 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ int	Server::handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<p
 	}
 	else
 	{
-		// if (message)
-			// std::cout << std::endl <<  "[Client] Message received from client "<< it->fd << " << "<< message << std::endl;
 		print("[Client] Message received from client ", it->fd, message); // si affichage incoherent regarder ici
 		client->setReadBuffer(message);
 		if (client->getReadBuffer().find("\r\n") != std::string::npos)
