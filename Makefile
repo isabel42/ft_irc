@@ -4,7 +4,8 @@ SRCS	= main.cpp \
 			CreateClientCon.cpp \
 			Hadlein.cpp \
 			handleout.cpp \
-			handleerr.cpp
+			handleerr.cpp \
+			parsing.cpp \
 
 OBJS 	= ${SRCS:.cpp=.o}
 

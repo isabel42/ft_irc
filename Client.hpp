@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:06:01 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/22 14:45:02 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:03:24 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,17 @@ class Client
 {
 	private:
 		int		_client_fd;
-		std::string _nickname;
-		std::string _real_name;
-		std::string _user_name;
+		// std::string _nickname;
+		// std::string _real_name;
+		// std::string _user_name;
+		bool _to_deconnect;
+		bool _connexion_password;
+		bool _registrationDone;
+		bool _welcomeSent;
+		bool _hasAllInfo;
+		int _nbInfo;
 		std::string	_readbuf;
 		std::string	_sendbuf;
-		bool _to_deconnect;
 	
 	public:
 		Client();
@@ -36,6 +41,14 @@ class Client
 		bool&			getDeconnexionStatus();
 		
 		void setfd(int i);
+		bool&			isRegistrationDone();
+		void			setRegistrationDone(bool boolean);
+		bool&			isWelcomeSent();
+		void			setWelcomeSent(bool boolean);
+		bool&			hasAllInfo();
+		void			sethasAllInfo(bool boolean);
+		int				getNbInfo() const;
+		void			setNbInfo(int n);
 };
 
 #endif

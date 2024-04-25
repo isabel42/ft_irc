@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/17 13:33:15 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:26:15 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ class Server
 		int	handlePolloutEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it, const int current_fd);
 
 		int	handlePollerEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it);
+
+		void fillClients(std::map<const int, Client> &client_list, int client_fd, std::string cmd);
+		void execCommand(int const client_fd, std::string cmd_line);
+		void parseMessage(std::string message);
+		
 };
 
 #endif

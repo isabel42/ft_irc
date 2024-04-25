@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:48:34 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/24 16:51:52 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:46:56 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	Server::handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<p
 	
 	memset(message, 0, sizeof(message));
 	read_count = recv(it->fd, message, BUF_SIZE_MSG, 0); // Retrieves the Client's message
-
+	
 	if (read_count == -1) // when recv returns an error
 	{
 		std::cerr << "[Server] Recv() failed [456]" << std::endl;
@@ -72,11 +72,11 @@ int	Server::handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<p
 	{
 		print("[Client] Message received from client ", it->fd, message); // si affichage incoherent regarder ici
 		client->setReadBuffer(message);
-		if (client->getReadBuffer().find("\r\n") != std::string::npos)
-		{
+		// if (client->getReadBuffer().find("\r\n") != std::string::npos)
+		// {
 			// try 
 			// {
-			// 	parseMessage(it->fd, client->getReadBuffer());
+				parseMessage(client->getReadBuffer());
 			// 	if (client->getReadBuffer().find("\r\n"))
 			// 		client->getReadBuffer().clear();
 			// }
@@ -86,9 +86,9 @@ int	Server::handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<p
 			// 	std::cerr << e.what() << std::endl;
 			// 	if (client->isRegistrationDone() == true)
 			// 		client->setDeconnexionStatus(true);
-			// 	return (BREAK);
+				// return (BREAK);
 			// }
-		}
+		// }
 	}
 	return (0);
 }
