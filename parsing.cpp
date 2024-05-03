@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:50:24 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/25 17:34:21 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:15:47 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void splitMessage(std::vector<std::string> &cmds, std::string msg, std::s
 		substr = msg.substr(0, pos);
 		cmds.push_back(substr);
 		msg.erase(0, pos + delimeter.length());
-		std::cout << "substr : " << substr << std::endl;
 	}
 }
 
@@ -149,7 +148,8 @@ void Server::parseMessage(std::string message)
 	// }
 	
 	cmd_struct cmd_infos;
-	parseCommand(cmds[0], cmd_infos);
+	for (size_t i = 0; i != cmds.size(); i++)
+		parseCommand(cmds[i], cmd_infos);
 }
 
 /**
@@ -167,6 +167,7 @@ int	parseCommand(std::string cmd_line, cmd_struct &cmd_infos)
 	std::vector<std::string> parts;
 	cmd_line.push_back(' ');
 	splitMessage(parts, cmd_line, " ");
+	cmd_line.pop_back();
 	std::vector<std::string>::iterator	it = parts.begin();
 	
 	// COMMAND
@@ -180,20 +181,21 @@ int	parseCommand(std::string cmd_line, cmd_struct &cmd_infos)
 	if (it != parts.end())
 	{
 		cmd_infos.name.assign(*it);
-		cmd_infos.message.clear();
 		it++;
 	}
-	while (it != parts.end())
+	if (it != parts.end())
 	{
-		cmd_infos.message.append(*it);	
-		cmd_infos.message.append(" ");
-		it++;
+		std::size_t length = 0;
+		if (cmd_infos.prefix.size() > 0)
+			length += 2;
+		if (cmd_infos.name.size() > 0)
+			length++;
+		length = length +  cmd_infos.prefix.size() + cmd_infos.name.size();
+		cmd_infos.message.assign(cmd_line.substr(length));
 	}
-	if (!cmd_infos.message.empty())
-		cmd_infos.message.pop_back();
 		
-	// std::cout << "PREFIX: " << "$" << cmd_infos.prefix << "$" << std::endl;
-	// std::cout << "COMMAND: " << "$" << cmd_infos.name << "$" << std::endl;
-	// std::cout << "MESSSAGE: " << "$" << cmd_infos.message << "$" << std::endl;
+	std::cout << "PREFIX: " << "$" << cmd_infos.prefix << "$" << std::endl;
+	std::cout << "COMMAND: " << "$" << cmd_infos.name << "$" << std::endl;
+	std::cout << "MESSAGE: " << "$" << cmd_infos.message << "$" << std::endl;
 	return (1);
 }

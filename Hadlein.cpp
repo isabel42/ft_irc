@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:48:34 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/25 16:46:56 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:15:59 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	Server::handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<p
 	{
 		std::cerr << "[Server] Recv() failed [456]" << std::endl;
 		delClient(poll_fds, it, it->fd);
-		return (2);
+		return (2);	
 	}
 	else if (read_count == 0) // when a client disconnects
 	{
