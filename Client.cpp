@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:09:11 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/25 15:03:35 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/06 17:56:48 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,3 +57,33 @@ bool&			Client::isWelcomeSent()			{ return (_welcomeSent); }
 bool&			Client::hasAllInfo() 			{ return (_hasAllInfo); }
 bool&			Client::getDeconnexionStatus()	{ return (_to_deconnect); }
 int				Client::getNbInfo() const 		{ return (_nbInfo); }
+
+void			Client::setNbInfo(int n) 		
+{
+	_nbInfo += n;
+	if (_nbInfo <= 0)
+		_nbInfo = 0;
+}
+
+void	Client::setNickname(std::string const &nickname)
+{
+	// If the nickname has more than 9 characters, it must be truncated
+	_nickname = (_nickname.size() > 9) ? nickname.substr(0, 9) : nickname;
+}
+
+void	Client::setOldNickname(std::string const &nickname)
+{
+	_old_nickname = nickname;
+}
+
+void	Client::setUsername(std::string const &username)
+{
+	_username = username;
+}
+
+void	Client::setRealname(std::string const &realname)
+{
+	_realname = realname;
+}
+
+std::string Client::getNickname() const		{return (_nickname); }

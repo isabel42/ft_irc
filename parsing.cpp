@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:50:24 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/26 17:15:47 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/06 23:20:09 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,6 @@
 #include "Server.hpp"
 #include "Commands.hpp"
 
-static void splitMessage(std::vector<std::string> &cmds, std::string msg, std::string delimeter)
-{
-	int pos = 0;
-	std::string substr;
-	
-	if ((pos = msg.find(delimeter)) == static_cast<int>(std::string::npos))
-		cmds.push_back(msg);
-
-	while ((pos = msg.find(delimeter)) != static_cast<int>(std::string::npos))
-	{
-		substr = msg.substr(0, pos);
-		cmds.push_back(substr);
-		msg.erase(0, pos + delimeter.length());
-	}
-}
 
 // void Server::fillClients(std::map<const int, Client> &client_list, int client_fd, std::string cmd)
 // {
@@ -49,108 +34,6 @@ static void splitMessage(std::vector<std::string> &cmds, std::string msg, std::s
 // 			it->second.setConnexionPassword(false);
 // 	}
 // }
-
-// void Server::execCommand(int const client_fd, std::string cmd_line)
-// {
-// 	std::string	validCmds[VALID_LEN] = {
-// 		"INVITE",
-// 		"JOIN",
-// 		"KICK",
-// 		"KILL",
-// 		"LIST",
-// 		"MODE",
-// 		"MOTD",
-// 		"NAMES",
-// 		"NICK",
-// 		"NOTICE",
-// 		"OPER",
-// 		"PART",
-// 		"PING",
-// 		"PRIVMSG",
-// 		"QUIT",
-// 		"TOPIC",
-// 		"USER",
-// 		};
-
-// 	Client *client = getClient(this, client_fd);
-// 	cmd_struct cmd_infos;
-// 	int index = 0;
-
-	// if (parseCommand(cmd_line, cmd_infos) == -1)
-	// 	return ;
-
-// 	std::cout << "******" << cmd_infos.message << std::endl;
-
-	// while (index < VALID_LEN)
-	// {
-	// 	if (cmd_infos.name == validCmds[index])
-	// 		break;
-	// 	index++;
-	// }
-
-	// switch (index + 1)
-	// {
-	// 	case 1: invite(this, client_fd, cmd_infos); break;
-	// 	case 2: join(this, client_fd, cmd_infos); break;
-	// 	case 3: kick(this, client_fd, cmd_infos); break;
-	// 	case 4: kill(this, client_fd, cmd_infos); break;
-	// 	case 5: list(this, client_fd, cmd_infos); break;
-	// 	case 6: modeFunction(this, client_fd, cmd_infos); break;
-	// 	case 7: motd(this, client_fd, cmd_infos); break;
-	// 	case 8: names(this, client_fd, cmd_infos); break;
-	// 	case 9: nick(this, client_fd, cmd_infos); break;
-    // 	case 10: notice(this, client_fd, cmd_infos); break;
-	// 	case 11: oper(this, client_fd, cmd_infos); break;
-	// 	case 12: part(this, client_fd, cmd_infos); break;
-	// 	case 13: ping(this, client_fd, cmd_infos); break;
-	// 	case 14: privmsg(this, client_fd, cmd_infos); break;
-	// 	case 15: quit(this, client_fd, cmd_infos); break;
-	// 	case 16: topic(this, client_fd, cmd_infos); break;
-	// 	case 17: user(this, client_fd, cmd_infos); break;
-	// 	default:
-	// 		addToClientBuffer(this, client_fd, ERR_UNKNOWNCOMMAND(client->getNickname(), cmd_infos.name));
-// 	}
-// }
-
-void Server::parseMessage(std::string message)
-{
-	std::vector<std::string>				cmds;
-	// std::map<const int, Client>::iterator	it = _clients.find(client_fd);
-	// Client *client = getClient(client_fd);
-
-	splitMessage(cmds, message, "\n");
-	// std::cout << std::endl << "**" << cmds[1] << "**" << std::endl;
-
-	// for (size_t i = 0; i != cmds.size(); i++)
-	// {
-		// if (client->isRegistrationDone() == false)
-		// {
-		// 	if (client->hasAllInfo() == false)
-		// 	{
-		// 		fillClients(_clients, client_fd, cmds[i]);
-		// 		if (client->getNbInfo() == 3)
-		// 			client->hasAllInfo() = true;
-		// 	}
-		// 	if (client->hasAllInfo() == true && client->isWelcomeSent() == false)
-		// 	{
-		// 		if (client->is_valid() == SUCCESS)
-		// 		{
-		// 			sendClientRegistration(this, client_fd, it);
-		// 			client->isWelcomeSent() = true;
-		// 			client->isRegistrationDone() = true;
-		// 		}		
-		// 		else
-		// 			throw Server::InvalidClientException();
-		// 	}
-		// }
-		// else
-			// execCommand(client_fd, cmds[i]);
-	// }
-	
-	cmd_struct cmd_infos;
-	for (size_t i = 0; i != cmds.size(); i++)
-		parseCommand(cmds[i], cmd_infos);
-}
 
 /**
  * @brief 
@@ -183,6 +66,9 @@ int	parseCommand(std::string cmd_line, cmd_struct &cmd_infos)
 		cmd_infos.name.assign(*it);
 		it++;
 	}
+	for (size_t i = 0; i < cmd_infos.name.size(); i++)
+		cmd_infos.name[i] = std::toupper(cmd_infos.name[i]);
+		
 	if (it != parts.end())
 	{
 		std::size_t length = 0;
@@ -192,10 +78,117 @@ int	parseCommand(std::string cmd_line, cmd_struct &cmd_infos)
 			length++;
 		length = length +  cmd_infos.prefix.size() + cmd_infos.name.size();
 		cmd_infos.message.assign(cmd_line.substr(length));
+		cmd_infos.message.erase(cmd_infos.message.find("\r"), 1);
 	}
-		
-	std::cout << "PREFIX: " << "$" << cmd_infos.prefix << "$" << std::endl;
-	std::cout << "COMMAND: " << "$" << cmd_infos.name << "$" << std::endl;
-	std::cout << "MESSAGE: " << "$" << cmd_infos.message << "$" << std::endl;
 	return (1);
+}
+
+void Server::execCommand(int const client_fd, std::string cmd_line)
+{
+	// std::string	validCmds[VALID_LEN] = {
+	// 	"INVITE",
+	// 	"JOIN",
+	// 	"KICK",
+	// 	"KILL",
+	// 	"LIST",
+	// 	"MODE",
+	// 	"MOTD",
+	// 	"NAMES",
+	// 	"NICK",
+	// 	"NOTICE",
+	// 	"OPER",
+	// 	"PART",
+	// 	"PING",
+	// 	"PRIVMSG",
+	// 	"QUIT",
+	// 	"TOPIC",
+	// 	"USER",
+	// 	};
+
+	// Client *client = getClient(this, client_fd);
+	cmd_struct cmd_infos;
+	// int index = 0;
+
+	if (parseCommand(cmd_line, cmd_infos) == -1)
+		return ;
+
+
+	// /----------
+	if (cmd_infos.name == "USER")
+		user(client_fd, cmd_infos);
+	if (cmd_infos.name == "NICK")
+		nick(client_fd, cmd_infos);
+	
+	// /----------
+	
+
+	// while (index < VALID_LEN)
+	// {
+	// 	if (cmd_infos.name == validCmds[index])
+	// 		break;
+	// 	index++;
+	// }
+
+	// switch (index + 1)
+	// {
+	// 	case 1: invite(this, client_fd, cmd_infos); break;
+	// 	case 2: join(this, client_fd, cmd_infos); break;
+	// 	case 3: kick(this, client_fd, cmd_infos); break;
+	// 	case 4: kill(this, client_fd, cmd_infos); break;
+	// 	case 5: list(this, client_fd, cmd_infos); break;
+	// 	case 6: modeFunction(this, client_fd, cmd_infos); break;
+	// 	case 7: motd(this, client_fd, cmd_infos); break;
+	// 	case 8: names(this, client_fd, cmd_infos); break;
+	// 	case 9: nick(this, client_fd, cmd_infos); break;
+    // 	case 10: notice(this, client_fd, cmd_infos); break;
+	// 	case 11: oper(this, client_fd, cmd_infos); break;
+	// 	case 12: part(this, client_fd, cmd_infos); break;
+	// 	case 13: ping(this, client_fd, cmd_infos); break;
+	// 	case 14: privmsg(this, client_fd, cmd_infos); break;
+	// 	case 15: quit(this, client_fd, cmd_infos); break;
+	// 	case 16: topic(this, client_fd, cmd_infos); break;
+	// 	case 17: user(this, client_fd, cmd_infos); break;
+	// 	default:
+	// 		addToClientBuffer(this, client_fd, ERR_UNKNOWNCOMMAND(client->getNickname(), cmd_infos.name));
+	// }
+}
+
+
+void Server::parseMessage(int client_fd, std::string message)
+{
+	std::vector<std::string>				cmds;
+	// std::map<const int, Client>::iterator	it = _clients.find(client_fd);
+	// Client *client = getClient(client_fd);
+
+	splitMessage(cmds, message, "\n");
+
+	for (size_t i = 0; i != cmds.size(); i++)
+	{
+	// 	if (client->isRegistrationDone() == false)
+	// 	{
+	// 		if (client->hasAllInfo() == false)
+	// 		{
+	// 			fillClients(_clients, client_fd, cmds[i]);
+	// 			if (client->getNbInfo() == 3)
+	// 				client->hasAllInfo() = true;
+	// 		}
+	// 		if (client->hasAllInfo() == true && client->isWelcomeSent() == false)
+	// 		{
+	// 			if (client->is_valid() == SUCCESS)
+	// 			{
+	// 				sendClientRegistration(this, client_fd, it);
+	// 				client->isWelcomeSent() = true;
+	// 				client->isRegistrationDone() = true;
+	// 			}		
+	// 			else
+	// 				throw Server::InvalidClientException();
+	// 		}
+	// 	}
+	// 	else
+			execCommand(client_fd, cmds[i]);
+	}
+	
+	// cmd_struct cmd_infos;
+	// for (size_t i = 0; i != cmds.size(); i++)
+	// 	parseCommand(cmds[i], cmd_infos);
 }

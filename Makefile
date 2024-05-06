@@ -6,6 +6,7 @@ SRCS	= main.cpp \
 			handleout.cpp \
 			handleerr.cpp \
 			parsing.cpp \
+			utils.cpp
 
 OBJS 	= ${SRCS:.cpp=.o}
 

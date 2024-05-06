@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:06:01 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/25 15:03:24 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/06 17:54:24 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ class Client
 {
 	private:
 		int		_client_fd;
-		// std::string _nickname;
-		// std::string _real_name;
-		// std::string _user_name;
+		std::string _nickname;
+		std::string _old_nickname;
+		std::string _realname;
+		std::string _username;
 		bool _to_deconnect;
 		bool _connexion_password;
 		bool _registrationDone;
@@ -49,6 +50,10 @@ class Client
 		void			sethasAllInfo(bool boolean);
 		int				getNbInfo() const;
 		void			setNbInfo(int n);
+		void			setNickname(std::string const &nickname);
+		void			setOldNickname(std::string const &nickname);
+		void			setUsername(std::string const &username);
+		void			setRealname(std::string const &realname);
+		std::string		getNickname() const;
 };
-
 #endif

@@ -6,14 +6,13 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/26 17:16:22 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/06 22:32:59 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-# include "Client.hpp"
 # include "Irc.hpp"
 
 
@@ -54,7 +53,12 @@ class Server
 
 		void fillClients(std::map<const int, Client> &client_list, int client_fd, std::string cmd);
 		void execCommand(int const client_fd, std::string cmd_line);
-		void parseMessage(std::string message);
+		void parseMessage(int client_fd, std::string message);
+
+		//--- commands --
+
+		void user(int const client_fd, cmd_struct cmd_infos);
+		void nick(int const client_fd, cmd_struct cmd_infos);
 		
 };
 

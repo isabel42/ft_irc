@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:48:34 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/04/26 17:15:59 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:41:32 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	Server::handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<p
 		// {
 			// try 
 			// {
-				parseMessage(client->getReadBuffer());
+				parseMessage(it->fd, client->getReadBuffer());
 			// 	if (client->getReadBuffer().find("\r\n"))
 			// 		client->getReadBuffer().clear();
 			// }
