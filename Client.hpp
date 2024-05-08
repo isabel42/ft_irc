@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:06:01 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/06 17:54:24 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/08 14:54:48 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ class Client
 		std::string	& getSendBuffer();
 		bool&			getDeconnexionStatus();
 		
-		void setfd(int i);
+		void 			setfd(int i);
+		int				getfd();
 		bool&			isRegistrationDone();
 		void			setRegistrationDone(bool boolean);
 		bool&			isWelcomeSent();

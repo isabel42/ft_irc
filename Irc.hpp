@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:31:50 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/06 17:59:55 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:36:28 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,13 @@
 #define BUF_SIZE_MSG 4096
 
 extern bool	server_shutdown;
+
+// struct cmd_struct
+// {
+// 	std::string	prefix;
+// 	std::string	name;
+// 	std::string	message;
+// 	std::vector<std::string>	message_split;
+// };
 
 #endif

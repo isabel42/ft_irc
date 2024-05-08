@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:02 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/06 23:24:22 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:31:48 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,55 +147,4 @@ void Server::ServerLoop()
 		}
 		poll_fds.insert(poll_fds.end(), new_pollfds.begin(), new_pollfds.end()); // Add the range of NEW_pollfds in poll_fds (helps recalculating poll_fds.end() in the for loop)
 	}
-}
-
-// --- commands ---
-
-void Server::user(int const client_fd, cmd_struct cmd_infos)
-{
-	std::vector<std::string> names;
-	Client *client = this->getClient(client_fd);
-	std::string mess_cp = cmd_infos.message + ' ';
-	
-	splitMessage(names, mess_cp, " ");
-	
-	if (names.size() < 4)
-		client->setSendBuffer(ERR_NEEDMOREPARAMS(client->getNickname(), cmd_infos.name));
-	else if (client->isRegistrationDone() == true)
-		client->setSendBuffer(ERR_ALREADYREGISTERED(client->getNickname()));
-	else
-	{
-		client->setUsername(names[0]);
-		if (names[3][0] == ':')
-			names[3].erase(0, 1);
-		for (size_t i = 4; i < names.size(); i++)
-		{
-			names[3] = names[3].append(" ");
-			names[3] = names[3].append(names[i]);
-		}
-		client->setRealname(names[3]);
-		client->setNbInfo(+1);
-	}
-	
-}
-
-void Server::nick(int const client_fd, cmd_struct cmd_infos)
-{
-	std::vector<std::string> names;
-	std::string name_token;
-	char *mess_char	= const_cast<char *>(cmd_infos.message.data());
-	Client *client = this->getClient(client_fd);
-	std::string mess_cp = cmd_infos.message + ' ';
-	splitMessage(names, mess_cp, " ");
-	name_token = strtok(mess_char, " ,*?!@.");
-	// name_token = strtok(NULL, " ,*?!@.");
-	
-	
-	if (cmd_infos.message.empty())
-		client->setSendBuffer(ERR_NONICKNAMEGIVEN(client->getNickname()));
-	else if (!name_token.empty())
-		// client->setSendBuffer(ERR_ERRONEUSNICKNAME(client->getNickname(), cmd_infos.name));
-		std::cout << name_token << std::endl;
-		std::cout << mess_char << std::endl;
-	
 }

@@ -6,13 +6,12 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:50:24 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/06 23:20:09 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:24:21 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Irc.hpp"
 #include "Server.hpp"
-#include "Commands.hpp"
 
 
 // void Server::fillClients(std::map<const int, Client> &client_list, int client_fd, std::string cmd)
@@ -79,6 +78,7 @@ int	parseCommand(std::string cmd_line, cmd_struct &cmd_infos)
 		length = length +  cmd_infos.prefix.size() + cmd_infos.name.size();
 		cmd_infos.message.assign(cmd_line.substr(length));
 		cmd_infos.message.erase(cmd_infos.message.find("\r"), 1);
+		splitMessage(cmd_infos.message_split, (cmd_infos.message + ' '), " ");
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:16:18 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/06 18:09:13 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:36:25 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ struct cmd_struct
 	std::string	prefix;
 	std::string	name;
 	std::string	message;
+	std::vector<std::string>	message_split;
 };
 
 

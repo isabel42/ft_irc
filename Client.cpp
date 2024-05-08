@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:09:11 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/06 17:56:48 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/08 14:55:26 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ std::string	& Client::getSendBuffer()
 void Client::setfd(int i)
 {
 	this->_client_fd = i;
+}
+
+int Client::getfd()
+{
+	return (_client_fd);
 }
 
 
