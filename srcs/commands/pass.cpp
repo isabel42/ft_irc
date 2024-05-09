@@ -26,9 +26,9 @@ bool Server::pass(int const client_fd, cmd_struct cmd_infos)
 		client->setNbInfo(+1);
 		return true;
 	}
-	client->setSendBuffer(ERR_PASSWDMISMATCH(client->getNickname());
-	if (client.isRegistrationDone() == false)
-		client.setNbInfo(-1);
+	client->setSendBuffer(ERR_PASSWDMISMATCH(client->getNickname()));
+	if (client->isRegistrationDone() == false)
+		client->setNbInfo(-1);
 	return false;
 	
 }

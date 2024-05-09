@@ -36,7 +36,9 @@ void Server::nick(int const client_fd, cmd_struct cmd_infos)
 			|| cmd_infos.message.find ('?') != std::string::npos 
 			|| cmd_infos.message.find ('!') != std::string::npos
 			|| cmd_infos.message.find ('@') != std::string::npos
-			|| cmd_infos.message.find ('.') != std::string::npos)
+			|| cmd_infos.message.find ('.') != std::string::npos
+			|| cmd_infos.message[0] == '$'
+			|| cmd_infos.message[0] == ':')
 		client->setSendBuffer(ERR_ERRONEUSNICKNAME(client->getNickname(), cmd_infos.message_split[0]));
 	else if ( isUsed(client_fd, cmd_infos.message_split[0], _clients) == true)
 		client->setSendBuffer(ERR_NICKNAMEINUSE(client->getNickname(), cmd_infos.message_split[0]));
@@ -49,7 +51,7 @@ void Server::nick(int const client_fd, cmd_struct cmd_infos)
 		}
 		else
 		{
-			client->setOldNickname(cmd_infos.message_split[0]));
+			client->setOldNickname(cmd_infos.message_split[0]);
 			client->setNbInfo(+1);
 		}
 		client->setNickname(cmd_infos.message_split[0]);

@@ -47,12 +47,12 @@
 
 extern bool	server_shutdown;
 
-// struct cmd_struct
-// {
-// 	std::string	prefix;
-// 	std::string	name;
-// 	std::string	message;
-// 	std::vector<std::string>	message_split;
-// };
+struct cmd_struct
+{
+	std::string	prefix;
+	std::string	name;
+	std::string	message;
+	std::vector<std::string>	message_split;
+};
 
 #endif

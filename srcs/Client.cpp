@@ -91,4 +91,6 @@ void	Client::setRealname(std::string const &realname)
 	_realname = realname;
 }
 
-std::string Client::getNickname() const		{return (_nickname); }
+std::string Client::getNickname() const			{return (_nickname); }
+std::string Client::getOldNickname() const		{return (_old_nickname); }
+std::string Client::getUsername() const			{return (_username); }

@@ -14,7 +14,6 @@
 #define SERVER_HPP
 
 # include "Irc.hpp"
-# include "Commands.hpp"
 
 
 class Server
@@ -60,6 +59,7 @@ class Server
 
 		void user(int const client_fd, cmd_struct cmd_infos);
 		void nick(int const client_fd, cmd_struct cmd_infos);
+		bool pass(int const client_fd, cmd_struct cmd_infos);
 		
 };
 

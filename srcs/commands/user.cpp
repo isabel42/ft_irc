@@ -26,7 +26,7 @@ void Server::user(int const client_fd, cmd_struct cmd_infos)
 		client->setSendBuffer(ERR_ALREADYREGISTERED(client->getNickname()));
 	else
 	{
-		client->setUsername(cmd_infos.message_split);
+		client->setUsername(cmd_infos.message_split[0]);
 		if (cmd_infos.message_split[3][0] == ':')
 			cmd_infos.message_split[3].erase(0, 1);
 		for (size_t i = 4; i < cmd_infos.message_split.size(); i++)

@@ -7,35 +7,42 @@ SRCS	= main.cpp \
 			handleerr.cpp \
 			parsing.cpp \
 			utils.cpp \
-			nick.cpp \
-			user.cpp
+			commands/nick.cpp \
+			commands/user.cpp \
+			commands/pass.cpp
 
-OBJS 	= ${SRCS:.cpp=.o}
+OBJS		= ${SRCS:%.cpp=${DIR_OBJS}%.o}
 
 NAME 	= ircserv
 
-CC		= c++
+CPP			= c++
 
-RM		= rm -f
+DIR_SRCS	= srcs/
 
-CFLAGS	= -Wextra -Wall -Werror -std=c++98 -g -fsanitize=address
+DIR_OBJS	= objs/
 
-.cpp.o:	
-			${CC} ${CFLAGS} -c $< -o ${<:.cpp=.o}
+# DEP			= ${OBJS:%.o=%.d}
 
-${NAME}: 	${OBJS}
-			${CC} $(CFLAGS) ${OBJS} -o ${NAME} 
+CPPFLAGS	= -Wall -Wextra -Werror -std=c++98 -c -I. -I./includes
 
-all:		${NAME}
+RM 			= rm -f
 
-clean:		
-			${RM} ${OBJS}
+all:	${NAME}
 
-fclean: 	clean
-			${RM} ${NAME}
+${NAME} : ${OBJS}
+	${CPP} $^ -o $@
 
-re:			fclean all
+${OBJS} : ${DIR_OBJS}%.o: ${DIR_SRCS}%.cpp
+	mkdir -p ${@D}
+	${CPP} ${CPPFLAGS} $< -o $@
+# -include ${DEP}
 
-.PHONY:		all clean fclean re
+clean:
+	${RM} -r ${DIR_OBJS}
 
+fclean: clean
+	${RM} ${NAME}
 
+re: fclean all
+
+.PHONY: all clean fclean re

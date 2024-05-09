@@ -56,5 +56,7 @@ class Client
 		void			setUsername(std::string const &username);
 		void			setRealname(std::string const &realname);
 		std::string		getNickname() const;
+		std::string		getOldNickname() const;
+		std::string		getUsername() const;
 };
 #endif
