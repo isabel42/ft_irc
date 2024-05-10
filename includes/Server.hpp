@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/08 16:38:57 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/10 13:26:35 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ class Server
 		std::string	_port;
 		std::string	_pw;
 		std::string _datetime;
-		bool		_onoff;
+		std::map<std::string, Channel>	_channels;
 			
 		struct addrinfo	_hints;
 		struct sockaddr_in	_param;
