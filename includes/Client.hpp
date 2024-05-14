@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:06:01 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/08 14:54:48 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:34:07 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ class Client
 		void			setOldNickname(std::string const &nickname);
 		void			setUsername(std::string const &username);
 		void			setRealname(std::string const &realname);
-		std::string		getNickname() const;
-		std::string		getOldNickname() const;
-		std::string		getUsername() const;
+		std::string	&	getNickname() ;
+		std::string	&	getOldNickname() ;
+		std::string	&	getUsername() ;
 };
 #endif

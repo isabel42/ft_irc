@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 13:23:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/10 15:41:24 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:40:13 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,56 +81,56 @@
  * 
  */
 
-static void  broadcastToChannel(std::map<const int, Client> client, std::map<std::string, Channel>::iterator it_channel, std::string target, std::string msg_to_send)
+static void  broadcastToChannel(Client *client, Channel channel, std::string target, std::string msg_to_send)
 {
    // check si client est banned du channel
-   std::vector<std::string> banned_users = it_channel->second.getBannedUsers();
+   std::vector<std::string> banned_users = channel.getBannedUsers();
    for (std::vector<std::string>::iterator it = banned_users.begin(); it != banned_users.end(); it++)
 	{
-		if (*it == client->second.getNickname())
+		if (*it == client->getNickname())
 		{
-			std::cout << "[Server] " << client->second.getNickname() << " is banned from the channel and can't send messages anymore" << std::endl;
+			std::cout << "[Server] " << client->getNickname() << " is banned from the channel and can't send messages anymore" << std::endl;
 			return ;
 		}
 	}
    // check si client est kick du channel
-   std::vector<std::string> kicked_users = it_channel->second.getKickedUsers();
+   std::vector<std::string> kicked_users = channel.getKickedUsers();
 	for (std::vector<std::string>::iterator it = kicked_users.begin(); it != kicked_users.end(); it++)
 	{
-		if (*it == client->second.getNickname())
+		if (*it == client->getNickname())
 		{
-			std::cout << "[Server] " << client->second.getNickname() << " is kicked from the channel and can't send messages anymore" << std::endl;
+			std::cout << "[Server] " << client->getNickname() << " is kicked from the channel and can't send messages anymore" << std::endl;
 			return ;
 		}
 	}
    // check si client est autorisé à parler (+m et +v)
-   if (it_channel->second.getMode().find("m") != std::string::npos)
+   if (channel.getMode().find("m") != std::string::npos)
    {
       // si il est pas operator et si il a pas +v : so can't speak
-      if (it_channel->second.isOperator(client->second.getNickname()) == false && it_channel->second.isVoiced(client->second.getNickname()) == false)
+      if (channel.isOperator(client->getNickname()) == false && channel.isVoiced(client->getNickname()) == false)
       {
-         client->setSendBuffer(ERR_CANNOTSENDTOCHAN(client->second.getNickname(), it_channel->second.getName()));
+         client->setSendBuffer(ERR_CANNOTSENDTOCHAN(client->getNickname(), channel.getName()));
          return ;
       }
    }
    // Envoi le message aux users du channel 
-   std::map<std::string, Client>::iterator member = it_channel->second.getClientList().begin(); // debut de la liste des clients du channel
-   while (member != it_channel->second.getClientList().end())
+   std::map<std::string, Client>::iterator member = channel.getClientList().begin(); // debut de la liste des clients du channel
+   while (member != channel.getClientList().end())
    {
-      if (member->second.getClientFd() != client_fd)   // preventing from sending the message to the sender
+      if (member->second.getfd() != client->getfd())   // preventing from sending the message to the sender
       {
-         member->second->setSendBuffer(RPL_PRIVMSG(member->second.getNickname(), member->second.getUsername(), target, msg_to_send));
+         member->second.setSendBuffer(RPL_PRIVMSG(member->second.getNickname(), member->second.getUsername(), target, msg_to_send));
       }
       member++;
    }
 }
 
-static bool isUserinChannel(std::map<const int, Client>::iterator it_client, std::map<std::string, Channel>::iterator it_channel)
-{
-   if (it_channel->second.getClientList().find(it_client->second.getNickname()) != it_channel->second.getClientList().end())
-      return (true);
-   return (false);
-}
+// static bool isUserinChannel(std::map<const int, Client>::iterator it_client, std::map<std::string, Channel>::iterator it_channel)
+// {
+//    if (it_channel->second.getClientList().find(it_client->second.getNickname()) != it_channel->second.getClientList().end())
+//       return (true);
+//    return (false);
+// }
 
 void	Server::privmsg(int const client_fd, cmd_struct cmd_infos)
 { 
@@ -143,13 +143,13 @@ void	Server::privmsg(int const client_fd, cmd_struct cmd_infos)
    size_t      delimiter = cmd_infos.message.rfind(":");
    if (delimiter == std::string::npos) // pas de : -> donc pas de message
    {
-      client->setSendBuffer(ERR_NOTEXTTOSEND(client->second.getNickname()));
+      client->setSendBuffer(ERR_NOTEXTTOSEND(client->getNickname()));
       return ;
    }
    target = cmd_infos.message.substr(1, delimiter - 1); // s'arrete avant le delimiter
    if (target.empty())
    {
-      client->setSendBuffer(ERR_NORECIPIENT(client->second.getNickname()));
+      client->setSendBuffer(ERR_NORECIPIENT(client->getNickname()));
       return ;
    }
    msg_to_send = cmd_infos.message.substr(delimiter);
@@ -161,46 +161,39 @@ void	Server::privmsg(int const client_fd, cmd_struct cmd_infos)
    // Channel case
    if (target[0] == '#')
    {
-      std::map<std::string, Channel>::iterator it_channel = channel_list.find(target.substr(1)); // find channel name by skipping the '#' character
+      std::map<std::string, Channel>::iterator it_channel = _channels.find(target.substr(1)); // find channel name by skipping the '#' character
 
-      if (it_channel == channel_list.end())
-         client->second->setSendBuffer(ERR_NOSUCHNICK(client->second.getNickname(), target));
+      if (it_channel == _channels.end())
+         client->setSendBuffer(ERR_NOSUCHNICK(client->getNickname(), target));
       else
-         broadcastToChannel(client, it_channel, target, msg_to_send);
+         broadcastToChannel(client, it_channel->second, target, msg_to_send);
    }
    // user case
    else
    {
-      std::map<std::string, Channel>::iterator it_channel = channel_list.find(target); // find channel name
+      std::map<std::string, Channel>::iterator it_channel = _channels.find(target); // find channel name
+      std::map<const int, Client>::iterator it_target = _clients.begin();
      
-      std::map<const int, Client>::iterator it_target = client_list.begin();
-      while (it_target!=client_list.end())
+      while (it_target != _clients.end())
       {
          if (it_target->second.getNickname() == target)
              break;
          it_target++;
       }
-      if (it_target == client_list.end() && it_channel == channel_list.end()) // user and channel doesn't exist
-      {
-         if (target == "chatGTP")
-            bot(server, client_fd, it_client, msg_to_send);
-         else
+      if (it_target == _clients.end() && it_channel == _channels.end()) // user and channel doesn't exist
             addToClientBuffer(server, client_fd, ERR_NOSUCHNICK(it_client->second.getNickname(), target));   
-      }
-      else
+      
+      else if (it_target == _clients.end()) // si le user n'existe pas mais le channel oui (gestion channel actif)
       {
-         if (it_target == client_list.end()) // si le user n'existe pas mais le channel oui (gestion channel actif)
+         if (it_channel->second.getClientList().find(it_client->second.getNickname()) != it_channel->second.getClientList().end())
          {
-            if (isUserinChannel(it_client, it_channel) == true)
-            {
-               target.insert(1, "#");  // ajouter le # before target
-               broadcastToChannel(server, client_fd, it_client, it_channel, target, msg_to_send);
-            }
-            else
-               addToClientBuffer(server, client_fd, ERR_NOSUCHNICK(it_client->second.getNickname(), target));
+            target.insert(1, "#");  // ajouter le # before target
+            broadcastToChannel(server, client_fd, it_client, it_channel, target, msg_to_send);
          }
          else
-            addToClientBuffer(server, it_target->first, RPL_PRIVMSG(it_client->second.getNickname(), it_client->second.getUsername(), target, msg_to_send));    
+            addToClientBuffer(server, client_fd, ERR_NOSUCHNICK(it_client->second.getNickname(), target));
       }
+      else
+         addToClientBuffer(server, it_target->first, RPL_PRIVMSG(it_client->second.getNickname(), it_client->second.getUsername(), target, msg_to_send));    
    }
 }

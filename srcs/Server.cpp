@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:02 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/08 16:31:48 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:51:36 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void Server::launchServer()
 		close (_server_socket_fd);
 		throw (std::out_of_range("[Server] Listen failed"));
 	}
-	this->_onoff = 1;
 }
 
 void Server::ServerLoop()

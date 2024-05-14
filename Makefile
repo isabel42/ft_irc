@@ -1,6 +1,7 @@
 SRCS	= main.cpp \
 			Server.cpp \
 			Client.cpp \
+			Channel.cpp \
 			CreateClientCon.cpp \
 			Hadlein.cpp \
 			handleout.cpp \
@@ -9,7 +10,8 @@ SRCS	= main.cpp \
 			utils.cpp \
 			commands/nick.cpp \
 			commands/user.cpp \
-			commands/pass.cpp
+			commands/pass.cpp \
+			commands/privmsg.cpp
 
 OBJS		= ${SRCS:%.cpp=${DIR_OBJS}%.o}
 

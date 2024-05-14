@@ -6,13 +6,15 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:03:14 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/10 13:03:56 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:08:28 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHANNEL_HPP
 #define CHANNEL_HPP
 #include "Irc.hpp"
+
+class	Client;
 
 class Channel
 {

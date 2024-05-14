@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:31:50 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/08 16:36:28 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:51:16 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 #include "NumRpy.hpp"
 #include "Utils.hpp"
 #include "Client.hpp"
+#include "Channel.hpp"
 
 
 #define BUF_SIZE_MSG 4096
