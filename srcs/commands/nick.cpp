@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:28:56 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/10 12:16:54 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:50:01 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ bool isUsed (int client_fd, std::string nick_tent, std::map<const int, Client> c
 	return false;
 }
 
+
 void Server::nick(int const client_fd, cmd_struct cmd_infos)
 {
 	Client *client = this->getClient(client_fd);
@@ -80,6 +81,24 @@ void Server::nick(int const client_fd, cmd_struct cmd_infos)
 		{
 			client->setOldNickname(client->getNickname());
 			std::cout << "[Server] Nickname change registered. Old nickname is now : " << client->getOldNickname() << std::endl;
+			
+			// if client is operator, change name in channel and server operators
+			
+			for (std::map<std::string, Channel>::iterator it_channel = _channels.begin(); it_channel != _channels.end(); it_channel++)
+			{
+				std::vector<std::string> op = it_channel->second.getOperators();
+				if (op.empty())
+					continue ;
+				std::vector<std::string>::iterator user;
+				for (user = op.begin(); user != op.end(); user++)
+				{
+					if (*user == client->getNickname())
+					{
+						op.erase(user);
+						op.push_back(cmd_infos.message_split[0]);
+					}
+				}
+			}
 		}
 		else
 		{

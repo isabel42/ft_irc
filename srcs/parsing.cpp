@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:50:24 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/08 16:24:21 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:23:46 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void Server::execCommand(int const client_fd, std::string cmd_line)
 
 	if (parseCommand(cmd_line, cmd_infos) == -1)
 		return ;
-
 
 	// /----------
 	if (cmd_infos.name == "USER")

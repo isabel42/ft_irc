@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/14 17:39:13 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/17 16:45:02 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ class Server
 		void fillClients(std::map<const int, Client> &client_list, int client_fd, std::string cmd);
 		void execCommand(int const client_fd, std::string cmd_line);
 		void parseMessage(int client_fd, std::string message);
+		
+		std::map<std::string, Channel> & getChannels();
 
 		//--- commands --
 
@@ -61,6 +63,7 @@ class Server
 		void nick(int const client_fd, cmd_struct cmd_infos);
 		bool pass(int const client_fd, cmd_struct cmd_infos);
 		void privmsg(int const client_fd, cmd_struct cmd_infos);
+		void join(int const client_fd, cmd_struct cmd_infos);
 		
 };
 

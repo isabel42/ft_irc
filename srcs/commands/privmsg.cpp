@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 13:23:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/14 17:40:13 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:59:53 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@
  * 
  */
 
+ 
+
 static void  broadcastToChannel(Client *client, Channel channel, std::string target, std::string msg_to_send)
 {
    // check si client est banned du channel
@@ -124,13 +126,6 @@ static void  broadcastToChannel(Client *client, Channel channel, std::string tar
       member++;
    }
 }
-
-// static bool isUserinChannel(std::map<const int, Client>::iterator it_client, std::map<std::string, Channel>::iterator it_channel)
-// {
-//    if (it_channel->second.getClientList().find(it_client->second.getNickname()) != it_channel->second.getClientList().end())
-//       return (true);
-//    return (false);
-// }
 
 void	Server::privmsg(int const client_fd, cmd_struct cmd_infos)
 { 
@@ -181,19 +176,20 @@ void	Server::privmsg(int const client_fd, cmd_struct cmd_infos)
          it_target++;
       }
       if (it_target == _clients.end() && it_channel == _channels.end()) // user and channel doesn't exist
-            addToClientBuffer(server, client_fd, ERR_NOSUCHNICK(it_client->second.getNickname(), target));   
+            client->setSendBuffer(ERR_NOSUCHNICK(client->getNickname(), target));   
       
       else if (it_target == _clients.end()) // si le user n'existe pas mais le channel oui (gestion channel actif)
       {
-         if (it_channel->second.getClientList().find(it_client->second.getNickname()) != it_channel->second.getClientList().end())
+         if (it_channel->second.getClientList().find(client->getNickname()) != it_channel->second.getClientList().end())
          {
             target.insert(1, "#");  // ajouter le # before target
-            broadcastToChannel(server, client_fd, it_client, it_channel, target, msg_to_send);
+            broadcastToChannel(client, it_channel->second, target, msg_to_send);
+            // broadcastToChannel(server, client_fd, it_client, it_channel, target, msg_to_send);
          }
          else
-            addToClientBuffer(server, client_fd, ERR_NOSUCHNICK(it_client->second.getNickname(), target));
+            client->setSendBuffer(ERR_NOSUCHNICK(client->getNickname(), target));
       }
       else
-         addToClientBuffer(server, it_target->first, RPL_PRIVMSG(it_client->second.getNickname(), it_client->second.getUsername(), target, msg_to_send));    
+         client->setSendBuffer(RPL_PRIVMSG(client->getNickname(), client->getUsername(), target, msg_to_send));    
    }
 }

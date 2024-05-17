@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:54:10 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/14 17:11:47 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:15:21 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ void	Channel::removeOperator(std::string operatorName)
 	}
 }
 
-bool 	Channel::isOperator(std::string &operatorName)
+bool Channel::isOperator(std::string &operatorName)
 {
 	std::vector<std::string>::iterator user;
 	if (_operators.empty())

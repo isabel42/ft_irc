@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:03:03 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/14 16:48:59 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/17 16:34:26 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,4 @@ void splitMessage(std::vector<std::string> &cmds, std::string msg, std::string d
 		cmds.push_back(substr);
 		msg.erase(0, pos + delimeter.length());
 	}
-}
-
-std::string	getChannelName(std::string msg_to_parse)
-{
-	std::string channel_name;
-	size_t i = 0;
-	while (msg_to_parse[i] && (!isalpha(msg_to_parse[i]) && !isdigit(msg_to_parse[i]) && msg_to_parse[i] != '-' && msg_to_parse[i] != '_'))
-		i++;
-	while (msg_to_parse[i] && (isalpha(msg_to_parse[i]) || msg_to_parse[i] == '-' || msg_to_parse[i] == '_' || isdigit(msg_to_parse[i])))
-		channel_name += msg_to_parse[i++];
-	return (channel_name);
 }

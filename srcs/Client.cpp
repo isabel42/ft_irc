@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:09:11 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/14 17:33:33 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/17 18:15:10 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ bool&			Client::isWelcomeSent()			{ return (_welcomeSent); }
 bool&			Client::hasAllInfo() 			{ return (_hasAllInfo); }
 bool&			Client::getDeconnexionStatus()	{ return (_to_deconnect); }
 int				Client::getNbInfo() const 		{ return (_nbInfo); }
+
+std::string&	Client::getMode()			{ return (_mode); }
 
 void			Client::setNbInfo(int n) 		
 {

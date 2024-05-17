@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:06:01 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/14 17:34:07 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/17 18:15:27 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class Client
 		bool _welcomeSent;
 		bool _hasAllInfo;
 		int _nbInfo;
+		std::string		_mode;
 		std::string	_readbuf;
 		std::string	_sendbuf;
 	
@@ -58,5 +59,6 @@ class Client
 		std::string	&	getNickname() ;
 		std::string	&	getOldNickname() ;
 		std::string	&	getUsername() ;
+		std::string&	getMode();
 };
 #endif
