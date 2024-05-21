@@ -12,7 +12,8 @@ SRCS	= main.cpp \
 			commands/user.cpp \
 			commands/pass.cpp \
 			commands/privmsg.cpp \
-			commands/join.cpp
+			commands/join.cpp \
+			commands/kick.cpp
 
 OBJS		= ${SRCS:%.cpp=${DIR_OBJS}%.o}
 

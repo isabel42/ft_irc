@@ -6,7 +6,7 @@
 /*   By: itovar-n <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:23:26 by itovar-n          #+#    #+#             */
-/*   Updated: 2024/05/17 16:45:02 by itovar-n         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:46:07 by itovar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ class Server
 		bool pass(int const client_fd, cmd_struct cmd_infos);
 		void privmsg(int const client_fd, cmd_struct cmd_infos);
 		void join(int const client_fd, cmd_struct cmd_infos);
+		void kick(int const client_fd, cmd_struct cmd_infos);
 		
 };
 
